@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_food_delivery_app/Widgets/onboarding_page.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:flutter_food_delivery_app/Services/shared_preferences.dart';
+import 'package:flutter_food_delivery_app/Screens/login.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -15,20 +17,36 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    startAnimation();
+    checkOnBoarding();
+  }
+  Future<void> checkOnBoarding() async {
+    bool comp = await LocalStorage.isOnBoardingCompleted();
+    Future.delayed(Duration(seconds: 3),(){
+      if(!mounted) return;
+      if(comp){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Login()));
+      }
+      else{
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const OnboardingPage()));
+      }
+    });
+  }
+  void startAnimation() {
+    Future.delayed(const Duration(milliseconds: 1000), () {
 
-    Future.delayed(const Duration(milliseconds: 700), () {
       setState(() {
         showText = true;
       });
     });
+    
 
-    Future.delayed(const Duration(milliseconds: 1200), () {
+    Future.delayed(const Duration(milliseconds: 1300), () {
       setState(() {
         showTagline = true;
       });
     });
   }
-
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -65,7 +83,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             SizedBox(height: h * 0.2),
             TweenAnimationBuilder(
-              duration: const Duration(milliseconds: 800),
+              duration: const Duration(milliseconds: 900),
               tween: Tween(begin: 0.0, end: 1.0),
               builder: (context, value, child) {
                 return Transform.scale(
@@ -76,7 +94,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Image.asset("assets/logo2.png", width: w * 0.6),
             ),
             AnimatedOpacity(
-              duration: const Duration(milliseconds: 600),
+              duration: const Duration(milliseconds: 900),
               opacity: showText ? 1 : 0,
               child: Text(
                 "Petu",
@@ -88,7 +106,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             AnimatedOpacity(
-              duration: const Duration(milliseconds: 600),
+              duration: const Duration(milliseconds: 900),
               opacity: showTagline ? 1 : 0,
               child: Text(
                 "Delivering Happiness, One Bite at a Time",

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'Widgets/splash_screen.dart';
+import 'package:flutter_food_delivery_app/Screens/splash_screen.dart';
 
 void main() {
   debugPaintSizeEnabled = false;
